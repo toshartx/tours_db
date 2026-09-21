@@ -12,6 +12,7 @@
 - `match_games` -- раунды внутри матча;
 - `roles` -- системные роли (организатор, судья, капитан, игрок)
 - `audit_log` -- журнал аудита 
+- `login_attempts` -- попытки входа (безопасность)
 
 ## Описание каждой сущности
 
@@ -160,4 +161,42 @@
 | role_id | INT | PK (составной), FK → roles(role_id) ON DELETE CASCADE |
 | assigned_at | TIMESTAMPTZ | NOT NULL, DEFAULT now() |
 
+### `tickets`
 
+| название атрибута | тип данных | ограничения |
+| :--- | :--- | :--- |
+| ticket_id | BIGSERIAL | PK |
+| author_id | BIGINT | NOT NULL, FK → users(user_id) ON DELETE SET NULL |
+| subject | VARCHAR(200) | NOT NULL |
+| body | TEXT | NOT NULL |
+| category | VARCHAR(30) | NOT NULL, CHECK (IN ('cheating','conduct','bug','other')) |
+| status | VARCHAR(20) | NOT NULL, DEFAULT 'open', CHECK (IN ('open','in_progress','resolved','rejected')) |
+| priority | VARCHAR(10) | NOT NULL, DEFAULT 'normal', CHECK (IN ('low','normal','high')) |
+| entity_type | VARCHAR(30) | NULL, CHECK (IN ('player','team','match','tournament')) |
+| entity_id | BIGINT | NULL |
+| assigned_to | BIGINT | FK → users(user_id) ON DELETE SET NULL |
+| resolved_at | TIMESTAMPTZ | NULL |
+| created_at | TIMESTAMPTZ | NOT NULL, DEFAULT now() |
+
+### `login_attempts`
+
+| название атрибута | тип данных | ограничения |
+| :--- | :--- | :--- |
+| id | BIGSERIAL | PK |
+| username | VARCHAR(30) | NULL |
+| success | BOOLEAN | NOT NULL |
+| ip_address | INET | NULL |
+| created_at | TIMESTAMPTZ | NOT NULL, DEFAULT now() |
+
+### `applications`
+| название атрибута | тип данных | ограничения |
+| :--- | :--- | :--- |
+| application_id | BIGSERIAL | PK |
+| team_id | BIGINT | NOT NULL, FK → teams(team_id) ON DELETE CASCADE |
+| player_id | BIGINT | NOT NULL, FK → players(player_id) ON DELETE CASCADE |
+| message | TEXT | NULL |
+| status | VARCHAR(20) | NOT NULL, DEFAULT 'pending', CHECK (IN ('pending','approved','rejected','cancelled')) |
+| reviewed_by | BIGINT | FK → users(user_id) ON DELETE SET NULL |
+| reviewed_at | TIMESTAMPTZ | NULL |
+| created_at | TIMESTAMPTZ | NOT NULL, DEFAULT now() |
+| — | — | Частичный UNIQUE (team_id, player_id) WHERE status = 'pending' |
