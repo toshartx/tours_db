@@ -152,7 +152,7 @@
 | user_agent | TEXT | NULL |
 | created_at | TIMESTAMPTZ | NOT NULL, DEFAULT now() |
 
-## `user_roles` (если ролей несколько)
+## `user_roles`
 
 | название атрибута | тип данных | ограничения |
 | :--- | :--- | :--- |
