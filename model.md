@@ -200,4 +200,4 @@
 | reviewed_by | BIGINT | FK → users(user_id) ON DELETE SET NULL |
 | reviewed_at | TIMESTAMPTZ | NULL |
 | created_at | TIMESTAMPTZ | NOT NULL, DEFAULT now() |
-| — | — | Частичный UNIQUE (team_id, player_id) WHERE status = 'pending' |
+<!-- | — | — | Частичный UNIQUE (team_id, player_id) WHERE status = 'pending' | -->
