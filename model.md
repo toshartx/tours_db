@@ -183,6 +183,7 @@
 | название атрибута | тип данных | ограничения |
 | :--- | :--- | :--- |
 | id | BIGSERIAL | PK |
+| user_id | BIGINT | FK → users(user_id) ON DELETE SET NULL |
 | username | VARCHAR(30) | NULL |
 | success | BOOLEAN | NOT NULL |
 | ip_address | INET | NULL |
