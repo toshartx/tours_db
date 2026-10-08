@@ -172,8 +172,6 @@
 | category | VARCHAR(30) | NOT NULL, CHECK (IN ('cheating','conduct','bug','other')) |
 | status | VARCHAR(20) | NOT NULL, DEFAULT 'open', CHECK (IN ('open','in_progress','resolved','rejected')) |
 | priority | VARCHAR(10) | NOT NULL, DEFAULT 'normal', CHECK (IN ('low','normal','high')) |
-| entity_type | VARCHAR(30) | NULL, CHECK (IN ('player','team','match','tournament')) |
-| entity_id | BIGINT | NULL |
 | assigned_to | BIGINT | FK → users(user_id) ON DELETE SET NULL |
 | resolved_at | TIMESTAMPTZ | NULL |
 | created_at | TIMESTAMPTZ | NOT NULL, DEFAULT now() |
