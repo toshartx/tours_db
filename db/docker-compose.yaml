@@ -1,0 +1,30 @@
+services:
+  postgres:
+    image: postgres:latest
+    env_file:
+      - postgre.env
+    volumes:
+      - pgdata:/var/lib/postgresql
+      - ./init:/docker-entrypoint-initdb.d:ro
+    ports:
+      - "5432:5432"
+    networks:
+      - net
+
+  pgadmin:
+    image: dpage/pgadmin4:latest
+    env_file:
+      - postgre.env
+    depends_on:
+      - postgres
+    ports:
+      - "8080:80"
+    networks:
+      - net
+
+networks:
+  net:
+    driver: bridge
+
+volumes:
+  pgdata:
