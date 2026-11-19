@@ -237,24 +237,3 @@
 | user_agent | TEXT | NULL |
 | created_at | TIMESTAMPTZ | NOT NULL, DEFAULT now() |
 
----
-
-## Изменения относительно исходной модели
-
-| Таблица | Что изменилось | Причина |
-| :--- | :--- | :--- |
-| `user_roles` | добавлено `assigned_by` | аудит назначения роли |
-| `team_members` | `id` заменён на составной PK `(team_id, player_id, joined_at)` | естественный ключ |
-| `matches` | удалён `round` | зависел от `round_number` |
-| `matches` | удалён `winner_id` | вычислим из счёта и команд |
-| `matches` | добавлен CHECK на `finished_at` / `status` | условная зависимость |
-| `matches` | добавлено `UNIQUE (tournament_id, round_number, match_number)` | естественный ключ |
-| `match_games` | `id` заменён на составной PK `(match_id, game_number)` | естественный ключ |
-| `match_games` | удалён `winner_id` | вычислим из счёта |
-| `match_games` | добавлены `submitted_by`, `approved_by`, `approved_at` | судейство матча |
-| `tickets` | добавлены `entity_type`, `entity_id` | полиморфная связь с сущностями |
-| `tickets` | добавлено CHECK на `resolved_at` / `status` | условная зависимость |
-| `login_attempts` | `username` стал `NOT NULL` | обязателен для контекста |
-| `login_attempts` | добавлен `failure_reason` | диагностика |
-| `login_attempts` | добавлен `user_agent` | безопасность |
-| `players` | добавлен `is_banned` | блокировка по решению судьи |
